@@ -81,6 +81,19 @@ class PushGatewayTest {
     assertThat(getUrl(pushGateway)).hasToString("https://example.com:1234/metrics/job/test");
   }
 
+  @Test
+  void testUpperCaseSchemeFromProperties() throws NoSuchFieldException, IllegalAccessException {
+    PrometheusProperties properties =
+        PrometheusProperties.builder()
+            .pushgatewayProperties(ExporterPushgatewayProperties.builder().scheme("HTTPS").build())
+            .build();
+
+    PushGateway pushGateway =
+        PushGateway.builder(properties).address("example.com:1234").job("test").build();
+
+    assertThat(getUrl(pushGateway)).hasToString("https://example.com:1234/metrics/job/test");
+  }
+
   private URL getUrl(PushGateway pushGateway) throws IllegalAccessException, NoSuchFieldException {
     Field field = pushGateway.getClass().getDeclaredField("url");
     field.setAccessible(true);
