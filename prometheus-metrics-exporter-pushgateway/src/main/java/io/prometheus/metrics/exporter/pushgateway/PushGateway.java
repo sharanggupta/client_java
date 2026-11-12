@@ -456,7 +456,7 @@ public class PushGateway {
 
     private Scheme getScheme(@Nullable ExporterPushgatewayProperties properties) {
       if (properties != null && properties.getScheme() != null) {
-        return Scheme.valueOf(properties.getScheme());
+        return Scheme.fromString(properties.getScheme());
       } else if (this.scheme != null) {
         return this.scheme;
       } else {
